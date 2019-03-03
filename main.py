@@ -39,7 +39,7 @@ model = PSMnet.PSMnet(args.maxdisp)
 
 def main():
     print('main function is running ...')
-    manager = Manaeger(model, args)
+    manager = Manager(model, args)
     manager.load_data(data_loader_train, data_loader_valid)
     if args.mode == 'train':
         manager.train()

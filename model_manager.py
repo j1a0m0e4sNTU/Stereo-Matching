@@ -7,7 +7,7 @@ import torch.optim as optim
 from torch.utils.data import DataLoader
 from util import *
 
-class Manaeger():
+class Manager():
     def __init__(self, model, args):
         
         if  args.load:
@@ -40,7 +40,6 @@ class Manaeger():
     def get_info(self):
         info = get_string('\nID:', self.id, '\n')
         info = get_string(info, 'infomation:', self.info, '\n')
-        info = get_string(info, 'Learning rate:', self.lr, '\n')
         info = get_string(info, 'Epoch number:', self.epoch_num, '\n')
         info = get_string(info, 'Batch size:', self.batch_size, '\n')
         info = get_string(info, '=======================\n\n')
