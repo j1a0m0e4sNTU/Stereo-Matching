@@ -2,7 +2,14 @@ import numpy as np
 import torch
 import torch.nn as nn
 import torchvision.transforms as transforms
+import torch.nn.functional as F
 from matplotlib import pyplot as plt
+
+def get_string(*args):
+    string = ''
+    for s in args:
+        string = string + ' ' + str(s)
+    return string
 
 class RandomCrop():
     def __init__(self, output_size): #(256, 512)
@@ -43,6 +50,17 @@ class Normalize(): # along first channel
         sample['left'] = (sample['left'] - self.mean) / self.std
         sample['right'] = (sample['right'] - self.mean) / self.std
         return sample
+
+class SmoothL1Loss(nn.Module):
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, disp1, disp2, disp3, target):
+        loss1 = F.smooth_l1_loss(disp1, target)
+        loss2 = F.smooth_l1_loss(disp2, target)
+        loss3 = F.smooth_l1_loss(disp3, target)
+
+        return loss1, loss2, loss3
 
 def test():
     pass

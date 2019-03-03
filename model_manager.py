@@ -18,10 +18,9 @@ class Manaeger():
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         self.model = model.to(self.device)
         self.optimizer = optim.Adam(self.model.parameters(), lr= args.lr)
-        self.criteria = None
+        self.criteria = SmoothL1Loss()
         self.epoch_num = args.epoch_num
         self.batch_size = args.batch_size
-        self.check_batch_num = args.check_batch_num
         
         self.save_name = os.path.join('../weights/', self.id + '.pkl')
         self.folder = os.path.join('results',self.id)
@@ -41,7 +40,6 @@ class Manaeger():
     def get_info(self):
         info = get_string('\nID:', self.id, '\n')
         info = get_string(info, 'infomation:', self.info, '\n')
-        info = get_string(info, 'Model:', self.model.name(), '\n')
         info = get_string(info, 'Learning rate:', self.lr, '\n')
         info = get_string(info, 'Epoch number:', self.epoch_num, '\n')
         info = get_string(info, 'Batch size:', self.batch_size, '\n')
@@ -52,18 +50,35 @@ class Manaeger():
         self.record(self.get_info())
 
         for epoch in range(self.epoch_num):
-            self.model.train()
-            
-            for batch_id, imgs in enumerate(self.data_loader):
-                self.model.zero_grad()
-                
-
-                # Record some information
-                if (batch_id + 1) % self.check_batch_num == 0:
-                    info = ""
-                    self.record(info + '\n')
-
+            train_loss = self.forward('train')
+            valid_loss = self.forward('valid')
+            info = get_string('Epoch', epoch, '|Train loss:', train_loss, '|Validation loss:', valid_loss)
+            self.record(info)
             torch.save(self.model.state_dict(), self.save_name)
-           
+
+    def forward(self, mode):
+        if mode == 'train':
+            dataloader = self.data_train
+        elif mode == 'valid':
+            dataloader = self.data_valid
+
+        total_loss = 0
+        for batch_id, sample in enumerate(dataloader):
+            left_img = sample['left'].to(self.device)
+            right_img = sample['right'].to(self.device)
+            target_disp = sample['disp'].to(self.device)   
+                
+            disp1, disp2, disp3 = self.model(left_img, right_img)
+            loss1, loss2, loss3 = self.criteria(disp1, disp2, disp3, target_disp)
+            loss = loss1 * 0.5 + loss2 * 0.7 + loss3 * 1.0
+            total_loss += loss.item()
+
+            if mode == 'train':
+                self.optimizer.zero_grad()
+                loss.backward()
+                self.optimizer.step()
+
+        return total_loss / (batch_id + 1)
+
     def predict(self, img_left, img_right, out):
         pass
