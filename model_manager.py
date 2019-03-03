@@ -30,8 +30,9 @@ class Manaeger():
         self.log_file = open(os.path.join(self.folder, 'record.txt'), 'w')
         self.info = args.info
     
-    def load_data(self, data_loader):
-        self.data_loader = data_loader
+    def load_data(self, data_loader_train, data_loader_valid):
+        self.data_train = data_loader_train
+        self.data_valid = data_loader_valid
         
     def record(self, message):
         self.log_file.write(message)

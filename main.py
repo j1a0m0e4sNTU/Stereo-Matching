@@ -31,9 +31,10 @@ transform = transforms.Compose([
                         ])
 
 # Prepare datasets, data loader
-data_set = Dataset_mine('../data_scene_flow',
-                        transform= transform)
-data_loader = DataLoader(data_set, batch_size= args.batch_size, shuffle= True, drop_last = True)
+data_train = Dataset_mine('../data_scene_flow', mode='train', transform= transform)
+data_loader_train = DataLoader(data_train, batch_size= args.batch_size, shuffle= True)
+data_valid = Dataset_mine('../data_scene_flow', mode='valid', transform= transform)
+data_loader_valid = DataLoader(data_valid, batch_size= args.batch_size, shuffle= False)
 
 def get_model(model_name):
     file = __import__(model_name)
@@ -44,7 +45,7 @@ def main():
     print('main function is running ...')
     model = get_model(args.model)
     manager = Manaeger(model, args)
-    manager.load_data(data_loader)
+    manager.load_data(data_loader_train, data_loader_valid)
     if args.mode == 'train':
         manager.train()
     elif args.mode == 'predict':
