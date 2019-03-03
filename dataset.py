@@ -39,27 +39,20 @@ class Dataset_mine(Dataset):
 
     def __getitem__(self, idx):
         sample = {}
-        img_left = plt.imread(self.left_list[idx])
-        img_right= plt.imread(self.right_list[idx])
-        img_disp = plt.imread(self.disp_list[idx])
+        sample['left'] = plt.imread(self.left_list[idx])
+        sample['right']= plt.imread(self.right_list[idx])
+        sample['disp'] = plt.imread(self.disp_list[idx])
 
         if self.transform:
-            img_left = self.transform(img_left)
-            img_right= self.transform(img_right)
-        img_disp = torch.tensor(img_disp)
-        
-        sample['left'] = img_left
-        sample['right']= img_right
-        sample['disp'] = img_disp
+            sample = self.transform(sample)
 
         return sample
 
 def unit_test():
-    data = Dataset_mine('../data_scene_flow', 'train',
-                        transform= transforms.Compose([
-                         transforms.ToTensor(),
-                         transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))    
-                        ]))
+    transform = transforms.Compose([RandomCrop([256, 512]),
+                                    ToTensor(),
+                                    Normalize(mean=(0.5,0.5,0.5), std= (0.5,0.5,0.5))])
+    data = Dataset_mine('../data_scene_flow', 'train', transform= transform)
     
     loader = DataLoader(data, batch_size= 8)
     
@@ -67,9 +60,9 @@ def unit_test():
     for id, sample in enumerate(loader):
         if id == 5:
             break
-        print(sample['disp'][0].size())
-        print(torch.sum(sample['disp'][0]))
-    
+        print(sample['left'].size())
+        print(sample['right'].size())
+        print(sample['disp'].size())
 
 if __name__ == '__main__':
     unit_test()
