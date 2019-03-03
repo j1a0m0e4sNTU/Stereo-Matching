@@ -3,7 +3,7 @@ import numpy as np
 import torch
 from torch.utils.data import Dataset, DataLoader
 import torchvision.transforms as transforms
-from model_manager import Manaeger
+from model_manager import Manager
 from dataset import Dataset_mine
 from matplotlib import pyplot as plt
 from util import *
@@ -23,7 +23,7 @@ parser.add_argument('-load', help='Weights to be load', default= None)
 parser.add_argument('-info', help= 'information for records', default= None)
 parser.add_argument('-left', help= 'Path to left image', default= None)
 parser.add_argument('-right', help= 'Path to right image', default= None)
-parser.add_argument('-output', help= 'Path to output image', defualt= None)
+parser.add_argument('-output', help= 'Path to output image', default= None)
 args = parser.parse_args()
 
 transform = transforms.Compose([RandomCrop([256, 512]),
