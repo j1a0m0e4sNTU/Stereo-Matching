@@ -36,18 +36,13 @@ class ToTensor():
 
 class Normalize(): # along first channel
     def __init__(self, mean, std):
-        self.mean = mean
-        self.std = std
+        self.mean = torch.tensor(mean).view(-1,1,1)
+        self.std  = torch.tensor(std).view(-1,1,1)
 
     def __call__(self, sample):
-        sample['left'] = self.__normalize(sample['left'])
-        sample['right'] = self.__normalize(sample['right'])
+        sample['left'] = (sample['left'] - self.mean) / self.std
+        sample['right'] = (sample['right'] - self.mean) / self.std
         return sample
-
-    def __normalize(self, img):
-        for i in range(3):
-            img[i, :, :] = (img[i, :, :] - self.mean[i]) / self.std[i]
-        return img
 
 def test():
     pass
