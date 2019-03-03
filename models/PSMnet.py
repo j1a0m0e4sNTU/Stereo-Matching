@@ -4,7 +4,7 @@ import torch.nn as nn
 from costnet import CostNet
 from stackedhourglass import *
 
-class PSMNet(nn.Module):
+class PSMnet(nn.Module):
 
     def __init__(self, max_disp):
         super().__init__()
