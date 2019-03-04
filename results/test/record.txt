@@ -1,8 +1,19 @@
      
-ID: test 
+ ID: test 
  infomation: Reproduce PSMNET 
  Epoch number: 10 
  Batch size: 2 
  =======================
 
- Epoch 0 |Train loss: 8.367865981534123 |Validation loss: no
+ batch loss: 95.29569244384766 
+ batch loss: 87.32427978515625 
+ batch loss: 54.57699203491211 
+ batch loss: 10.963739395141602 
+ batch loss: 5.31639289855957 
+ batch loss: 4.063482761383057 
+ batch loss: 2.8632047176361084 
+ batch loss: 1.2240241765975952 
+ batch loss: 0.5851302146911621 
+ batch loss: 0.3448222279548645 
+ batch loss: 0.28869396448135376 
+ batch loss: 0.2417897880077362 
