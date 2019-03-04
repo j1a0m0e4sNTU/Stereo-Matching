@@ -76,7 +76,7 @@ class Manager():
             # self.record(get_string('batch loss:', loss3, '\n'))
 
             disp = self.model(left_img, right_img)
-            loss = self.criteria(disp, target_disp)
+            loss = F.smooth_l1_loss(disp, target_disp)
             total_loss += loss.item()
             self.record(get_string('batch loss:', loss, '\n'))
 
