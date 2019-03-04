@@ -4,6 +4,7 @@ import numpy as np
 import torch
 import torch.nn as nn
 import torch.optim as optim
+import torch.nn.functional as F
 from torch.utils.data import DataLoader
 from util import *
 
@@ -18,7 +19,7 @@ class Manager():
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         self.model = model.to(self.device)
         self.optimizer = optim.Adam(self.model.parameters(), lr= args.lr)
-        self.criteria = SmoothL1Loss()
+        self.criteria = F.smooth_l1_loss()
         self.epoch_num = args.epoch_num
         self.batch_size = args.batch_size
         
