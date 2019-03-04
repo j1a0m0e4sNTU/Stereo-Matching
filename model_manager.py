@@ -19,7 +19,7 @@ class Manager():
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         self.model = model.to(self.device)
         self.optimizer = optim.Adam(self.model.parameters(), lr= args.lr)
-        self.criteria = F.smooth_l1_loss()
+        self.criteria = SmoothL1Loss()
         self.epoch_num = args.epoch_num
         self.batch_size = args.batch_size
         
@@ -78,7 +78,7 @@ class Manager():
             # disp = self.model(left_img, right_img)
             # loss = F.smooth_l1_loss(disp, target_disp)
             # total_loss += loss.item()
-            # self.record(get_string('batch loss:', loss, '\n'))
+            # self.record(get_string('batch loss:', loss.item(), '\n'))
 
             if mode == 'train':
                 self.optimizer.zero_grad()
