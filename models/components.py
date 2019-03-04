@@ -1,5 +1,6 @@
 import torch
 import torch.nn as nn
+from util import parameter_number
 
 class Net_0(nn.Module):
     ''' Ectract featre then stack'''
@@ -110,9 +111,6 @@ class ConvTranspose2d_block(nn.Module):
     def forward(self, x):
         out = self.net(x)
         return out
-
-def parameter_number(model):
-    return sum(p.numel() for p in model.parameters() if p.requires_grad)
 
 def unit_test():
     imgs_left = torch.zeros(4, 3, 8, 8)
