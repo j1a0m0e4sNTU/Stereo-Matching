@@ -35,7 +35,7 @@ data_loader_train = DataLoader(data_train, batch_size= args.batch_size, shuffle=
 data_valid = Dataset_mine('../data_scene_flow', mode='valid', transform= transform)
 data_loader_valid = DataLoader(data_valid, batch_size= args.batch_size, shuffle= False)
 
-model = PSMnet(args.maxdisp)
+model = Net_0(args.maxdisp)
 
 def main():
     print('main function is running ...')
