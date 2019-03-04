@@ -68,11 +68,16 @@ class Manager():
             right_img = sample['right'].to(self.device)
             target_disp = sample['disp'].to(self.device)   
                 
-            disp1, disp2, disp3 = self.model(left_img, right_img)
-            loss1, loss2, loss3 = self.criteria(disp1, disp2, disp3, target_disp)
-            loss = loss1 * 0.5 + loss2 * 0.7 + loss3 * 1.0
-            total_loss += loss3.item()
-            self.record(get_string('batch loss:', loss3, '\n'))
+            # disp1, disp2, disp3 = self.model(left_img, right_img)
+            # loss1, loss2, loss3 = self.criteria(disp1, disp2, disp3, target_disp)
+            # loss = loss1 * 0.5 + loss2 * 0.7 + loss3 * 1.0
+            # total_loss += loss3.item()
+            # self.record(get_string('batch loss:', loss3, '\n'))
+
+            disp = self.model(left_img, right_img)
+            loss = self.criteria(disp, target_disp)
+            total_loss += loss.item()
+            self.record(get_string('batch loss:', loss, '\n'))
 
             if mode == 'train':
                 self.optimizer.zero_grad()
