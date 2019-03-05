@@ -27,7 +27,7 @@ class Manager():
         self.folder = os.path.join('results',self.id)
         if not os.path.isdir(self.folder):
             os.mkdir(self.folder)
-        self.log_file = open(os.path.join(self.folder, 'record.txt'), 'w')
+        self.log_file = open(os.path.join(self.folder, self.id + '.txt'), 'w')
         self.info = args.info
     
     def load_data(self, data_loader_train, data_loader_valid):
@@ -40,6 +40,7 @@ class Manager():
 
     def get_info(self):
         info = get_string('\n ID:', self.id, '\n')
+        info = get_string(info, 'parameter number:', parameter_number(self.model), '\n')
         info = get_string(info, 'infomation:', self.info, '\n')
         info = get_string(info, 'Epoch number:', self.epoch_num, '\n')
         info = get_string(info, 'Batch size:', self.batch_size, '\n')
@@ -48,7 +49,7 @@ class Manager():
 
     def train(self):
         self.record(self.get_info())
-        self.record(self.model.__str__())
+        self.record(self.model.__str__() + "\n")
 
         for epoch in range(self.epoch_num):
             train_loss = self.forward('train')

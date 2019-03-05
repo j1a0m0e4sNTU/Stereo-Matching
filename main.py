@@ -10,7 +10,7 @@ from util import *
 import sys
 sys.path.append('models')
 from PSMnet import PSMnet
-from components import *
+from Snet import *
 
 parser = argparse.ArgumentParser()
 parser.add_argument('mode', help='Train/Generate', choices=['train', 'predict'])
@@ -35,7 +35,7 @@ data_loader_train = DataLoader(data_train, batch_size= args.batch_size, shuffle=
 data_valid = Dataset_mine('../data_scene_flow', mode='valid', transform= transform)
 data_loader_valid = DataLoader(data_valid, batch_size= args.batch_size, shuffle= False)
 
-model = Net_1(args.maxdisp, 348)
+model = Net_bf(args.maxdisp, 350)
 
 def main():
     print('main function is running ...')

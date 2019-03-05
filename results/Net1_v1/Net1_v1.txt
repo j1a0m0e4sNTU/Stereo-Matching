@@ -1,5 +1,6 @@
      
  ID: Net1_v1 
+ parameter number: 8225716
  infomation: baseline -- stack then extract feature 
  Epoch number: 20 
  Batch size: 2 
