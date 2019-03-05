@@ -62,6 +62,9 @@ class SmoothL1Loss(nn.Module):
 
         return loss1, loss2, loss3
 
+def parameter_number(model):
+    return sum(p.numel() for p in model.parameters() if p.requires_grad)
+
 def test():
     pass
 
