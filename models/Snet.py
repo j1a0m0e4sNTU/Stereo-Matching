@@ -1,6 +1,14 @@
 import torch
 import torch.nn as nn
+import torch.nn.functional as F
 from components import *
+
+class SNet_1(nn.Module):
+    def __init__(self, max_disp):
+        super().__init__()
+    
+    def forward(self, img_left, img_right):
+        return 
 
 class SNet_0(nn.Module):
     def __init__(self, max_disp):
@@ -14,7 +22,8 @@ class SNet_0(nn.Module):
         img_stack = torch.cat([img_left, img_right], dim= 1)
         out = self.spp(img_stack)
         out = self.block0(out)
-        disp_prob = self.block1(out)
+        out = self.block1(out)
+        disp_prob = F.softmax(out, dim=1)
         disp = self.regression(disp_prob)
         return disp
 
