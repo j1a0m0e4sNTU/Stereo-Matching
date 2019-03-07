@@ -2,6 +2,22 @@ import torch
 import torch.nn as nn
 from components import *
 
+class SNet_0(nn.Module):
+    def __init__(self, max_disp):
+        super().__init__()
+        self.spp = SPP(in_c= 6, out_c = 32)
+        self.block0 = StackedResidual(3, in_c = 32*5, out_c = 256, kernel_size= 3, stride= 1, padding= 1)
+        self.block1 = StackedResidual(2, in_c = 256, out_c = max_disp, kernel_size = 3, stride= 1, padding= 1)
+        self.regression = DisparityRegression(max_disp)
+
+    def forward(self, img_left, img_right):
+        img_stack = torch.cat([img_left, img_right], dim= 1)
+        out = self.spp(img_stack)
+        out = self.block0(out)
+        disp_prob = self.block1(out)
+        disp = self.regression(disp_prob)
+        return disp
+
 class Net_bf(nn.Module):
     '''Brute Force -- Fit left image to its disparity'''
     def __init__(self, max_disp, hidden_depth= 256, depth_unit= 32):
@@ -48,13 +64,14 @@ class Net_1(nn.Module):
         return disp
 
 def unit_test():
-    imgs_left = torch.zeros(4, 3, 8, 8)
-    imgs_right = torch.zeros(4, 3, 8, 8)
-    model = Net_bf(192, 350, 32)
-    out = model(imgs_left, imgs_right)
+    max_disp = 192
+    # imgs_left = torch.zeros(4, 3, 256, 512)
+    # imgs_right = torch.zeros(4, 3, 256, 512)
+    model = SNet_0(max_disp)
+    # out = model(imgs_left, imgs_right)
 
     print('Parameter number:', parameter_number(model))
-    print('Output size',out.size())
+    # print('Output size',out.size())
     
 if __name__ == '__main__':
     unit_test()

@@ -24,10 +24,7 @@ class Manager():
         self.batch_size = args.batch_size
         
         self.save_name = os.path.join('../weights/', self.id + '.pkl')
-        self.folder = os.path.join('results',self.id)
-        if not os.path.isdir(self.folder):
-            os.mkdir(self.folder)
-        self.log_file = open(os.path.join(self.folder, self.id + '.txt'), 'w')
+        self.log_file = open(os.path.join("results/", self.id + '.txt'), 'w')
         self.info = args.info
     
     def load_data(self, data_loader_train, data_loader_valid):
@@ -80,7 +77,6 @@ class Manager():
             disp = self.model(left_img, right_img)
             loss = F.smooth_l1_loss(disp, target_disp)
             total_loss += loss.item()
-            self.record(get_string('batch loss:', loss.item(), '\n'))
 
             if mode == 'train':
                 self.optimizer.zero_grad()
