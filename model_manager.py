@@ -50,8 +50,8 @@ class Manager():
 
         for epoch in range(self.epoch_num):
             train_loss = self.forward('train')
-            valid_loss = self.forward('valid')
-            # valid_loss = "no"
+            # valid_loss = self.forward('valid')
+            valid_loss = "no"
             info = get_string('Epoch', epoch, '|Train loss:', train_loss, '|Validation loss:', valid_loss, '\n')
             self.record(info)
             torch.save(self.model.state_dict(), self.save_name)
@@ -77,7 +77,7 @@ class Manager():
             disp = self.model(left_img, right_img)
             loss = F.smooth_l1_loss(disp, target_disp)
             total_loss += loss.item()
-
+            print(loss.item())
             if mode == 'train':
                 self.optimizer.zero_grad()
                 loss.backward()

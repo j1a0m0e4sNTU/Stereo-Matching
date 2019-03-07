@@ -22,10 +22,10 @@ class SPP(nn.Module):
 
     def forward(self, inputs): # (b, in_c, H, W)
         out = self.conv(inputs)
-        out0 = F.interpolate(self.branch0(inputs), scale_factor= self.rate[0], mode= 'bilinear', align_corners= False)
-        out1 = F.interpolate(self.branch1(inputs), scale_factor= self.rate[1], mode= 'bilinear', align_corners= False)
-        out2 = F.interpolate(self.branch2(inputs), scale_factor= self.rate[2], mode= 'bilinear', align_corners= False)
-        out3 = F.interpolate(self.branch3(inputs), scale_factor= self.rate[3], mode= 'bilinear', align_corners= False)
+        out0 = F.upsample(self.branch0(inputs), scale_factor= self.rate[0], mode= 'bilinear', align_corners= False)
+        out1 = F.upsample(self.branch1(inputs), scale_factor= self.rate[1], mode= 'bilinear', align_corners= False)
+        out2 = F.upsample(self.branch2(inputs), scale_factor= self.rate[2], mode= 'bilinear', align_corners= False)
+        out3 = F.upsample(self.branch3(inputs), scale_factor= self.rate[3], mode= 'bilinear', align_corners= False)
         out = torch.cat([out, out0, out1, out2, out3], dim= 1) #(b, out_c * 5, H, W) 
         return out
 
