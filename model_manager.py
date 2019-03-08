@@ -93,12 +93,11 @@ class Manager():
         transform = transforms.Compose([ToTensor(),
                             Normalize(mean= (0.5, 0.5, 0.5), std= (0.5, 0.5, 0.5))])
 
+        
+        left_cut = plt.imread(img_left)[:320, :1216]
+        right_cut= plt.imread(img_right)[:320, :1216]
         sample = {}
-        left_pad = np.zeros((384, 1280), dtype=np.float)
-        right_pad = np.zeros((384, 1280), dtype= np.float)
-        left_pad[:375, :1242] = plt.imread(img_left)
-        right_pad[:375, :1242]= plt.imread(img_right)
-        sample['left'], sample['right'] = left_pad, right_pad
+        sample['left'], sample['right'] = left_cut, right_cut
         
         sample = transform(sample)
         img_left  = sample['left'].unsqueeze(0).to(self.device) 
@@ -108,6 +107,6 @@ class Manager():
         disp = disp.squeeze(0).detach().cpu().numpy()
         
         f, axarr = plt.subplots(2)
-        axarr[0].imshow(left_pad)
+        axarr[0].imshow(left_cut)
         axarr[1].imshow(disp)
         plt.savefig(out)
