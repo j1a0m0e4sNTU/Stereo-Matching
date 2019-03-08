@@ -91,10 +91,12 @@ class Manager():
                             Normalize(mean= (0.5, 0.5, 0.5), std= (0.5, 0.5, 0.5))])
 
         smaple = {}
-        sample['left'] = plt.imread(img_left).to(self.device)
-        sample['right'] = plt.imread(img_right).to(self.device)
+        sample['left'] = plt.imread(img_left)
+        sample['right'] = plt.imread(img_right)
         sample = transform(sample)
-        img_left, img_right = sample['left'].unsqueeze(0), sample['right'].unsqueeze(0)
+        img_left  = sample['left'].unsqueeze(0).to(self.device) 
+        img_right = sample['right'].unsqueeze(0).to(self.device)
+        
         disp = self.model(img_left, img_right)
         disp = disp.squeeze(0).detach().cpu().numpy()
         plt.inshow(disp)
