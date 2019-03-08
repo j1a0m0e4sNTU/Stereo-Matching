@@ -81,7 +81,7 @@ class Manager():
             loss1, loss2, loss3 = self.criteria(disp1, disp2, disp3, target_disp)
             loss = loss1 * 0.5 + loss2 * 0.7 + loss3 * 1.0
             total_loss += loss3.item()
-            self.record(loss3.item(), '\n')
+            self.record(str(loss3.item()) + '\n')
 
             # disp = self.model(left_img, right_img)
             # loss = F.smooth_l1_loss(disp, target_disp)
@@ -100,8 +100,8 @@ class Manager():
                             Normalize(mean= (0.5, 0.5, 0.5), std= (0.5, 0.5, 0.5))])
 
         
-        left_cut = plt.imread(img_left)[:320, :1216]
-        right_cut= plt.imread(img_right)[:320, :1216]
+        left_cut = plt.imread(img_left)[:320, :1024]
+        right_cut= plt.imread(img_right)[:320, :1024]
         sample = {}
         sample['left'], sample['right'] = left_cut, right_cut
         
@@ -109,7 +109,7 @@ class Manager():
         img_left  = sample['left'].unsqueeze(0).to(self.device) 
         img_right = sample['right'].unsqueeze(0).to(self.device)
         
-        disp = self.model(img_left, img_right)
+        _, _, disp = self.model(img_left, img_right)
         disp = disp.squeeze(0).detach().cpu().numpy()
         
         f, axarr = plt.subplots(2)
