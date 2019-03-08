@@ -40,8 +40,8 @@ model = SNet_0(args.maxdisp)
 def main():
     print('main function is running ...')
     manager = Manager(model, args)
-    manager.load_data(data_loader_train, data_loader_valid)
     if args.mode == 'train':
+        manager.load_data(data_loader_train, data_loader_valid)
         manager.train()
     elif args.mode == 'predict':
         manager.predict(args.left, args.right, args.output)
