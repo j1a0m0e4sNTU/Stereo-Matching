@@ -5,7 +5,7 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 import torch.nn.functional as F
-import torchvision.transofrms as transforms
+import torchvision.transforms as transforms
 from torch.utils.data import DataLoader
 from util import *
 
@@ -14,7 +14,7 @@ class Manager():
         
         if  args.load:
             load_name = os.path.join('../weights/', args.load)
-            model.load_state_dict(torch.load(load_name + '.pkl'))
+            model.load_state_dict(torch.load(load_name))
         
         self.id = args.id
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')

@@ -13,7 +13,7 @@ from PSMnet import PSMnet
 from Snet import *
 
 parser = argparse.ArgumentParser()
-parser.add_argument('mode', help='Train/Generate', choices=['train', 'predict'])
+parser.add_argument('mode', help='Train/Predict', choices=['train', 'predict'])
 parser.add_argument('-maxdisp', help= 'max disparity', type= int, default= 192)
 parser.add_argument('-id', help= 'Experiment ID, used for saving files', default= '0')
 parser.add_argument('-lr', help= 'Learning rate',type=float, default= 0.001)
@@ -44,7 +44,7 @@ def main():
     if args.mode == 'train':
         manager.train()
     elif args.mode == 'predict':
-        manager.predict(img_left, img_right, args.output)
+        manager.predict(args.left, args.right, args.output)
 
 if __name__ == '__main__':
     main()
