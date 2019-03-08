@@ -1,0 +1,185 @@
+      
+ ID: SNet_0_v2 
+ parameter number: 5694432 
+ infomation: add SoftMax when compute disp_prob 
+ Epoch number: 20 
+ Batch size: 2 
+ =======================
+
+SNet_0(
+  (spp): SPP(
+    (conv): Conv2dBlock(
+      (net): Sequential(
+        (0): Conv2d(6, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+        (1): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (2): ReLU(inplace)
+      )
+    )
+    (branch0): Sequential(
+      (0): AvgPool2d(kernel_size=8, stride=8, padding=0)
+      (1): Conv2dBlock(
+        (net): Sequential(
+          (0): Conv2d(6, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+          (1): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (2): ReLU(inplace)
+        )
+      )
+    )
+    (branch1): Sequential(
+      (0): AvgPool2d(kernel_size=16, stride=16, padding=0)
+      (1): Conv2dBlock(
+        (net): Sequential(
+          (0): Conv2d(6, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+          (1): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (2): ReLU(inplace)
+        )
+      )
+    )
+    (branch2): Sequential(
+      (0): AvgPool2d(kernel_size=32, stride=32, padding=0)
+      (1): Conv2dBlock(
+        (net): Sequential(
+          (0): Conv2d(6, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+          (1): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (2): ReLU(inplace)
+        )
+      )
+    )
+    (branch3): Sequential(
+      (0): AvgPool2d(kernel_size=64, stride=64, padding=0)
+      (1): Conv2dBlock(
+        (net): Sequential(
+          (0): Conv2d(6, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+          (1): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (2): ReLU(inplace)
+        )
+      )
+    )
+  )
+  (block0): StackedResidual(
+    (net): Sequential(
+      (0): ResidualBlock(
+        (downSample): Conv2dBlock(
+          (net): Sequential(
+            (0): Conv2d(160, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+            (1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+        (residual): Sequential(
+          (0): Conv2dBlock(
+            (net): Sequential(
+              (0): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+              (1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              (2): ReLU(inplace)
+            )
+          )
+          (1): Conv2dBlock(
+            (net): Sequential(
+              (0): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+              (1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+        )
+      )
+      (1): ResidualBlock(
+        (residual): Sequential(
+          (0): Conv2dBlock(
+            (net): Sequential(
+              (0): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+              (1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              (2): ReLU(inplace)
+            )
+          )
+          (1): Conv2dBlock(
+            (net): Sequential(
+              (0): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+              (1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+        )
+      )
+      (2): ResidualBlock(
+        (residual): Sequential(
+          (0): Conv2dBlock(
+            (net): Sequential(
+              (0): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+              (1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              (2): ReLU(inplace)
+            )
+          )
+          (1): Conv2dBlock(
+            (net): Sequential(
+              (0): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+              (1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+        )
+      )
+    )
+  )
+  (block1): StackedResidual(
+    (net): Sequential(
+      (0): ResidualBlock(
+        (downSample): Conv2dBlock(
+          (net): Sequential(
+            (0): Conv2d(256, 192, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+            (1): BatchNorm2d(192, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+        (residual): Sequential(
+          (0): Conv2dBlock(
+            (net): Sequential(
+              (0): Conv2d(192, 192, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+              (1): BatchNorm2d(192, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              (2): ReLU(inplace)
+            )
+          )
+          (1): Conv2dBlock(
+            (net): Sequential(
+              (0): Conv2d(192, 192, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+              (1): BatchNorm2d(192, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+        )
+      )
+      (1): ResidualBlock(
+        (residual): Sequential(
+          (0): Conv2dBlock(
+            (net): Sequential(
+              (0): Conv2d(192, 192, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+              (1): BatchNorm2d(192, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              (2): ReLU(inplace)
+            )
+          )
+          (1): Conv2dBlock(
+            (net): Sequential(
+              (0): Conv2d(192, 192, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+              (1): BatchNorm2d(192, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+        )
+      )
+    )
+  )
+  (regression): DisparityRegression()
+)
+ Epoch 0 |Train loss: 38.17358253002167 |Validation loss: no 
+ Epoch 1 |Train loss: 18.389204823970793 |Validation loss: no 
+ Epoch 2 |Train loss: 12.209968745708466 |Validation loss: no 
+ Epoch 3 |Train loss: 8.731133568286896 |Validation loss: no 
+ Epoch 4 |Train loss: 6.697802746295929 |Validation loss: no 
+ Epoch 5 |Train loss: 5.249641096591949 |Validation loss: no 
+ Epoch 6 |Train loss: 4.172253534197807 |Validation loss: no 
+ Epoch 7 |Train loss: 3.4321268916130068 |Validation loss: no 
+ Epoch 8 |Train loss: 2.885233125090599 |Validation loss: no 
+ Epoch 9 |Train loss: 2.413608229160309 |Validation loss: no 
+ Epoch 10 |Train loss: 2.0469770595431327 |Validation loss: no 
+ Epoch 11 |Train loss: 1.7250434935092926 |Validation loss: no 
+ Epoch 12 |Train loss: 1.45495166182518 |Validation loss: no 
+ Epoch 13 |Train loss: 1.2417215019464494 |Validation loss: no 
+ Epoch 14 |Train loss: 1.0629645988345147 |Validation loss: no 
+ Epoch 15 |Train loss: 0.9140714108943939 |Validation loss: no 
+ Epoch 16 |Train loss: 0.8010259836912155 |Validation loss: no 
+ Epoch 17 |Train loss: 0.6944348491728306 |Validation loss: no 
+ Epoch 18 |Train loss: 0.645414412766695 |Validation loss: no 
+ Epoch 19 |Train loss: 0.5413605190813542 |Validation loss: no 
