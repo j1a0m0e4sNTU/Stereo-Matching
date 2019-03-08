@@ -28,7 +28,10 @@ class Manager():
         self.batch_size = args.batch_size
         
         self.save_name = os.path.join('../weights/', self.id + '.pkl')
-        self.log_file = open(os.path.join("results/", self.id + '.txt'), 'w')
+        self.folder = os.path.join('results', self.id)
+        if not os.path.isdir(self.folder):
+            os.mkdir(self.folder)
+        self.log_file = open(os.path.join(self.folder, self.id + '.txt'), 'w')
         self.info = args.info
     
     def load_data(self, data_loader_train, data_loader_valid):
@@ -59,6 +62,8 @@ class Manager():
             info = get_string('Epoch', epoch, '|Train loss:', train_loss, '|Validation loss:', valid_loss, '\n')
             self.record(info)
             torch.save(self.model.state_dict(), self.save_name)
+            out_path = os.path.join(self.folder, str(epoch)+'.png')
+            self.predict('left.png', 'right.png', out_path)
 
     def forward(self, mode):
         if mode == 'train':
@@ -72,16 +77,17 @@ class Manager():
             right_img = sample['right'].to(self.device)
             target_disp = sample['disp'].to(self.device)   
                 
-            # disp1, disp2, disp3 = self.model(left_img, right_img)
-            # loss1, loss2, loss3 = self.criteria(disp1, disp2, disp3, target_disp)
-            # loss = loss1 * 0.5 + loss2 * 0.7 + loss3 * 1.0
-            # total_loss += loss3.item()
-            # self.record(get_string('batch loss:', loss3.item(), '\n'))
+            disp1, disp2, disp3 = self.model(left_img, right_img)
+            loss1, loss2, loss3 = self.criteria(disp1, disp2, disp3, target_disp)
+            loss = loss1 * 0.5 + loss2 * 0.7 + loss3 * 1.0
+            total_loss += loss3.item()
+            self.record(loss3.item(), '\n')
 
-            disp = self.model(left_img, right_img)
-            loss = F.smooth_l1_loss(disp, target_disp)
-            total_loss += loss.item()
-            print(loss.item())
+            # disp = self.model(left_img, right_img)
+            # loss = F.smooth_l1_loss(disp, target_disp)
+            # total_loss += loss.item()
+            # print(loss.item())
+
             if mode == 'train':
                 self.optimizer.zero_grad()
                 loss.backward()
