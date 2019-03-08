@@ -44,9 +44,7 @@ def main():
     if args.mode == 'train':
         manager.train()
     elif args.mode == 'predict':
-        img_left  = transform(plt.imread(args.left))
-        img_right = transform(plt.imread(args.right))
-        manager.predict(img_left, img_right, args.out)
+        manager.predict(img_left, img_right, args.output)
 
 if __name__ == '__main__':
     main()

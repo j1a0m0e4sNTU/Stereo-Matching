@@ -5,6 +5,7 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 import torch.nn.functional as F
+import torchvision.transofrms as transforms
 from torch.utils.data import DataLoader
 from util import *
 
@@ -86,4 +87,14 @@ class Manager():
         return total_loss / (batch_id + 1)
 
     def predict(self, img_left, img_right, out):
+        transform = transforms.Compose([ToTensor(),
+                            Normalize(mean= (0.5, 0.5, 0.5), std= (0.5, 0.5, 0.5))])
+        img_left = transform(plt.imread(img_left)).to(self.device)
+        img_right = transform(plt.imread(img_right)).to(self.device)
+        img_left, img_right = img_left.unsqueeze(0), img_right.unsqueeze(0)
+        disp = self.model(img_left, img_right)
+        disp = disp.squeeze(0).detach().cpu().numpy()
+        plt.inshow(disp)
+        plt.colorbar()
+        plt.savefig(out)
         pass
