@@ -103,8 +103,8 @@ class Manager():
         
         disp = self.model(img_left, img_right)
         disp = disp.squeeze(0).detach().cpu().numpy()
-     
-        # axarr[0, 0].imshow(left)
-        plt.imshow(disp)
-        plt.colorbar()
+        
+        f, axarr = plt.subplots(2, 2)
+        axarr[0, 0].imshow(left)
+        axarr[1, 0].imshow(disp)
         plt.savefig(out)
