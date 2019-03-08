@@ -7,6 +7,9 @@ import torch.optim as optim
 import torch.nn.functional as F
 import torchvision.transforms as transforms
 from torch.utils.data import DataLoader
+import matplotlib 
+matplotlib.use('agg')
+import matplotlib.pyplot as plt
 from util import *
 
 class Manager():
@@ -90,15 +93,18 @@ class Manager():
         transform = transforms.Compose([ToTensor(),
                             Normalize(mean= (0.5, 0.5, 0.5), std= (0.5, 0.5, 0.5))])
 
-        smaple = {}
-        sample['left'] = plt.imread(img_left)
-        sample['right'] = plt.imread(img_right)
+        sample = {}
+        sample['left'] = plt.imread(img_left)[:256, :1024, :]
+        left = sample['left']
+        sample['right'] = plt.imread(img_right)[:256, :1024, :]
         sample = transform(sample)
         img_left  = sample['left'].unsqueeze(0).to(self.device) 
         img_right = sample['right'].unsqueeze(0).to(self.device)
         
         disp = self.model(img_left, img_right)
         disp = disp.squeeze(0).detach().cpu().numpy()
-        plt.inshow(disp)
+     
+        # axarr[0, 0].imshow(left)
+        plt.imshow(disp)
         plt.colorbar()
         plt.savefig(out)
