@@ -94,9 +94,12 @@ class Manager():
                             Normalize(mean= (0.5, 0.5, 0.5), std= (0.5, 0.5, 0.5))])
 
         sample = {}
-        sample['left'] = plt.imread(img_left)[:256, :1024, :]
-        left = sample['left']
-        sample['right'] = plt.imread(img_right)[:256, :1024, :]
+        left_pad = np.zeros((384, 1280), dtype=np.float)
+        right_pad = np.zeros((384, 1280), dtype= np.float)
+        left_pad[:375, :1242] = plt.imread(img_left)
+        right_pad[:375, :1242]= plt.imread(img_right)
+        sample['left'], sample['right'] = left_pad, right_pad
+        
         sample = transform(sample)
         img_left  = sample['left'].unsqueeze(0).to(self.device) 
         img_right = sample['right'].unsqueeze(0).to(self.device)
@@ -105,6 +108,6 @@ class Manager():
         disp = disp.squeeze(0).detach().cpu().numpy()
         
         f, axarr = plt.subplots(2)
-        axarr[0].imshow(left)
+        axarr[0].imshow(left_pad)
         axarr[1].imshow(disp)
         plt.savefig(out)
